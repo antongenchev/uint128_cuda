@@ -16,3 +16,44 @@ TEST(UInt128Test, AdditionOverflow) {
     EXPECT_EQ(result.high, 1);
     EXPECT_EQ(result.low, 0);
 }
+
+TEST(Uint128Test, Multiplication1) {
+    uint128_t a(0, 1);
+    uint128_t b(0, 2);
+    uint128_t result = a * b;
+    EXPECT_EQ(result.high, 0);
+    EXPECT_EQ(result.low, 2);
+}
+
+TEST(Uint128Test, Multiplication2) {
+    uint128_t a(0, UINT64_MAX);
+    uint128_t b(0, 2);
+    uint128_t result = a * b;
+    EXPECT_EQ(result.high, 1);
+    EXPECT_EQ(result.low, UINT64_MAX - 1);
+    uint128_t result2 = b * a;
+    EXPECT_EQ(result.low, result2.low);
+    EXPECT_EQ(result.high, result2.high);
+}
+
+TEST(Uint128Test, Multiplication3) {
+    uint128_t a(0, UINT64_MAX);
+    uint128_t b(0, UINT64_MAX);
+    uint128_t result = a * b;
+    EXPECT_EQ(result.high, UINT64_MAX - 1);
+    EXPECT_EQ(result.low, 1);
+    uint128_t result2 = b * a;
+    EXPECT_EQ(result.low, result2.low);
+    EXPECT_EQ(result.high, result2.high);
+}
+
+TEST(Uint128Test, Multiplication4) {
+    uint128_t a(UINT64_MAX, UINT64_MAX);
+    uint128_t b(UINT64_MAX, UINT64_MAX);
+    uint128_t result = a * b;
+    EXPECT_EQ(result.high, 0);
+    EXPECT_EQ(result.low, 1);
+    uint128_t result2 = b * a;
+    EXPECT_EQ(result.low, result2.low);
+    EXPECT_EQ(result.high, result2.high);
+}
