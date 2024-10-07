@@ -21,9 +21,17 @@ struct uint128_t {
         return result;
     }
 
+    // Operator overloading: -
+    __host__ __device__ uint128_t operator-(const uint128_t& other) const {
+        uint128_t result;
+        result.low = low - other.low;
+        result.high = high - other.high - (low < other.low ? 1 : 0);
+        return result;
+    }
+
     // Operator overloading: *
     __host__  uint128_t operator*(const uint128_t& other) const {
-        // (a*2^64 + b)(c*2^64 + d) % 2^128 = (a*d + a*c)*2^64 + b*d % 2^128
+        // (a*2^64 + b)(c*2^64 + d) % 2^128 = (a*d + b*c)*2^64 + b*d % 2^128
         uint128_t result;
         multiply_uint64_t(low, other.low, &result.high, &result.low);
         result.high += low * other.high + high * other.low;

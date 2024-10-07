@@ -17,6 +17,22 @@ TEST(UInt128Test, AdditionOverflow) {
     EXPECT_EQ(result.low, 0);
 }
 
+TEST(UInt128Test, Subtraction) {
+    uint128_t a(2,5);
+    uint128_t b(2,3);
+    uint128_t result = a - b;
+    EXPECT_EQ(result.high, 0);
+    EXPECT_EQ(result.low, 2);
+}
+
+TEST(UInt128Test, SubtractionOverflow) {
+    uint128_t a(1,0);
+    uint128_t b(0,UINT64_MAX);
+    uint128_t result = a - b;
+    EXPECT_EQ(result.high, 0);
+    EXPECT_EQ(result.low, 1);
+}
+
 TEST(Uint128Test, Multiplication1) {
     uint128_t a(0, 1);
     uint128_t b(0, 2);
