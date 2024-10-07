@@ -37,6 +37,21 @@ struct uint128_t {
         result.high += low * other.high + high * other.low;
         return result;
     }
+
+    // Operator overloading: / (128bit/64bit)
+    __host__ uint128_t operator/(const uint64_t& other) const {
+        // Long division
+        // (a*2^96 + b*2^64 + c*2^32 + d)/n = (a/n)*2^96 + (((a%n)*2^64 + b)/n)*2^64 + ...
+        uint128_t result;
+        result.high = ((high >> 32) / other << 32) + //(a/n)*2^96
+                      (((high >> 32) % other << 32) + (high & 0xffffffff)) / other; //(((a%n)*2^64 + b)/n)*2^64
+        result.low = (((((((high >> 32) % other << 32) + (high & 0xffffffff)) % other) << 32) +
+                     (low >> 32)) / other << 32) + // (((((a%n)*2^64 + b)%n)+c)/n)*2^32
+                     (((((((high >> 32) % other << 32) + (high & 0xffffffff)) % other << 32) +
+                     (low >> 32)) % other << 32) + (low & 0xffffffff)) / other; // ((((((a%n)*2^64 + b)%n)+c)%n) + d)/n
+        return result;
+    }
+
 };
 
 #endif // UINT128
