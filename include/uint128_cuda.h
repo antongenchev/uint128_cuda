@@ -52,6 +52,34 @@ struct uint128_t {
         return result;
     }
 
+    // Operator overloading: <
+    __host__ bool operator<(const uint128_t& other) const {
+        if (high != other.high) {
+            return high < other.high; // Compare the high parts first
+        }
+        return low < other.low; // If high parts are equal, compare the low parts
+    }
+
+    // Operator overloading: >
+    bool operator>(const uint128_t& other) const {
+        return other < *this; // a > b if b < a
+    }
+
+    // Operator overloading: <=
+    bool operator<=(const uint128_t& other) const {
+        return !(*this > other); // a <= b if it's not the case that a > b
+    }
+
+    // Operator overloading: <=
+    bool operator>=(const uint128_t& other) const {
+        return !(*this < other); // a >= b if it's not the case that a < b
+    }
+
+
+
+
+
+
 };
 
 #endif // UINT128
