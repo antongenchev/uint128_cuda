@@ -105,3 +105,33 @@ TEST(Uint128Test, DivisionBy64bit4) {
     EXPECT_EQ(result.high, INT64_MAX >> 1);
     // EXPECT_EQ(result.low, INT64_MAX);
 }
+
+TEST(Uint128Test, Comparison1) {
+    uint128_t a(1, 1);
+    uint128_t b(1, 1);
+    EXPECT_EQ(a == b, true);
+    EXPECT_EQ(a >= b, true);
+    EXPECT_EQ(a <= b, true);
+    EXPECT_EQ(a > b, false);
+    EXPECT_EQ(a < b, false);
+}
+
+TEST(Uint128Test, Comparison2) {
+    uint128_t a(1, 1);
+    uint128_t b(1, 2);
+    EXPECT_EQ(a == b, false);
+    EXPECT_EQ(a >= b, false);
+    EXPECT_EQ(a <= b, true);
+    EXPECT_EQ(a > b, false);
+    EXPECT_EQ(a < b, true);
+}
+
+TEST(Uint128Test, Comparison3) {
+    uint128_t a(1, 2);
+    uint128_t b(2, 1);
+    EXPECT_EQ(a == b, false);
+    EXPECT_EQ(a >= b, false);
+    EXPECT_EQ(a <= b, true);
+    EXPECT_EQ(a > b, false);
+    EXPECT_EQ(a < b, true);
+}

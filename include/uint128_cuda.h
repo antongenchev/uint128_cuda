@@ -75,6 +75,10 @@ struct uint128_t {
         return !(*this < other); // a >= b if it's not the case that a < b
     }
 
+    // Operator overloading: ==
+    bool operator==(const uint128_t& other) const {
+        return (low == other.low) and (high == other.high);
+    }
 
 
 
