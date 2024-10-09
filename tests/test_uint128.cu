@@ -91,11 +91,11 @@ TEST(Uint128Test, DivisionBy64bit1) {
 }
 
 TEST(Uint128Test, DivisionBy64bit2) {
-    uint128_t a(0, INT64_MAX);
+    uint128_t a(0, UINT64_MAX);
     uint64_t b = 2;
     uint128_t result = a / b;
     EXPECT_EQ(result.high, 0);
-    EXPECT_EQ(result.low, (1ULL << 62) - 1);
+    EXPECT_EQ(result.low, (1ULL << 63) - 1);
 }
 
 TEST(Uint128Test, DivisionBy64bit3) {
@@ -107,11 +107,11 @@ TEST(Uint128Test, DivisionBy64bit3) {
 }
 
 TEST(Uint128Test, DivisionBy64bit4) {
-    uint128_t a(INT64_MAX, INT64_MAX - 1);
+    uint128_t a(UINT64_MAX, UINT64_MAX - 1);
     uint64_t b = 2;
     uint128_t result = a / b;
-    EXPECT_EQ(result.high, INT64_MAX >> 1);
-    // EXPECT_EQ(result.low, INT64_MAX);
+    EXPECT_EQ(result.high, UINT64_MAX >> 1);
+    EXPECT_EQ(result.low, UINT64_MAX);
 }
 
 TEST(Uint128Test, Comparison1) {
