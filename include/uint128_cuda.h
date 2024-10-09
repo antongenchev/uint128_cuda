@@ -38,6 +38,14 @@ struct uint128_t {
         return result;
     }
 
+    // Operator overloading: * (128bit*64bit)
+    __host__ uint128_t operator*(const uint64_t& other) const {
+        uint128_t result;
+        multiply_uint64_t(low, other, &result.high, &result.low);
+        result.high += high * other;
+        return result;
+    }
+
     // Operator overloading: / (128bit/64bit)
     __host__ uint128_t operator/(const uint64_t& other) const {
         // Long division

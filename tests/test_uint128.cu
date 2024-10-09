@@ -74,6 +74,14 @@ TEST(Uint128Test, Multiplication4) {
     EXPECT_EQ(result.high, result2.high);
 }
 
+TEST(Uint128Test, Multiplication5) {
+    uint128_t a(1, UINT64_MAX);
+    uint64_t b(2);
+    uint128_t result = a * b;
+    EXPECT_EQ(result.high, 3);
+    EXPECT_EQ(result.low, UINT64_MAX - 1);
+}
+
 TEST(Uint128Test, DivisionBy64bit1) {
     uint128_t a(0, 6);
     uint64_t b(2);

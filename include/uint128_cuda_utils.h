@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <cuda_runtime.h>
 
-// Function for multiplying two 64 bit integers into uint64_t
+// Function for multiplying two 64 bit integers into a 128 bit integer represented by two uint64_t
 __host__ __device__ void multiply_uint64_t(const uint64_t& x, const uint64_t& y, uint64_t *high, uint64_t *low) {
     /*
     Parameters:
