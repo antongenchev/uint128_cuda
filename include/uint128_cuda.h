@@ -88,9 +88,40 @@ struct uint128_t {
         return (low == other.low) and (high == other.high);
     }
 
-
-
-
+    // Operator overloading: / (128bit/128bit)
+    __host__ uint128_t operator/(const uint128_t& other) const {
+        if (other.high == 0) {
+            // If the divisor can fit in 64 bits then yse (128bit/64bit) division
+            return *this / other.low;
+        } else if (*this <= other) {
+            // If the denominator is not smaller than the numerator then the result is trivial
+            return (this->low == other.low ? uint128_t(0,1) : uint128_t(0,0));
+        }
+        // Approximate the answer. (A_1A_0 / D_1__) is an upper boundary for (A1_0A_0 / D_1D_0)
+        // Also (A1A0 / D_1__)*0.5 is a lower boundary for (A1_0A_0 / D_1D_0)
+        uint64_t upper_bound(this->high / other.high);
+        uint64_t lower_bound = upper_bound / 2;
+        // Binary search refiment to find the exact result
+        uint64_t result = lower_bound + (upper_bound - lower_bound) / 2; // upper_bound + lower_bound can overflow
+        uint128_t result_times_divisor = other * result;
+        uint128_t this_minus_other = *this - other;
+        while (true) {
+            if (result_times_divisor > *this ) {
+                // result is too big we should decrease it
+                upper_bound = result - 1;
+                // return result_times_divisor;
+            } else if (result_times_divisor <= *this - other) {
+                // result is too small we should increase it
+                lower_bound = result + 1;
+            } else {
+                // the result is just right
+                break;
+            }
+            result = lower_bound + (upper_bound - lower_bound) / 2;
+            result_times_divisor = other * result;
+        }
+        return uint128_t(0, result);
+    }
 
 };
 
