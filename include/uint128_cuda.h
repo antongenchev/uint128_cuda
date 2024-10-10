@@ -123,6 +123,11 @@ struct uint128_t {
         return uint128_t(0, result);
     }
 
+    // Operator overloading: %
+    __host__ uint128_t operator%(const uint128_t& other) const {
+        return *this - (*this / other) * other;
+    }
+
 };
 
 #endif // UINT128

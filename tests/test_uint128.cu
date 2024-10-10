@@ -199,3 +199,27 @@ TEST(Uint128Test, Comparison3) {
     EXPECT_EQ(a > b, false);
     EXPECT_EQ(a < b, true);
 }
+
+TEST(Uint128Test, Modulo1) {
+    uint128_t a(5, 0);
+    uint128_t b(2, 0);
+    uint128_t result = a % b;
+    EXPECT_EQ(result.high, 1);
+    EXPECT_EQ(result.low, 0);
+}
+
+TEST(Uint128Test, Modulo2) {
+    uint128_t a(0, 8);
+    uint128_t b(0, 3);
+    uint128_t result = a % b;
+    EXPECT_EQ(result.high, 0);
+    EXPECT_EQ(result.low, 2);
+}
+
+TEST(Uint128Test, Modulo3) {
+    uint128_t a(1, 2);
+    uint128_t b(0, 4);
+    uint128_t result = a % b;
+    EXPECT_EQ(result.high, 0);
+    EXPECT_EQ(result.low, 2);
+}
